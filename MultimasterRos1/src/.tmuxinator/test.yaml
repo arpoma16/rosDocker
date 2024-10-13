@@ -1,0 +1,22 @@
+name: muav-gui
+root: ~/
+on_project_exit: tmux kill-window
+
+windows:
+  - GCS:
+      layout: even-vertical
+      panes:
+        - backend:
+            - roscore
+        - glyphserver:
+            - sleep 5
+            - roslaunch mypack mylaunch.launch
+        - frontend:
+            - sleep 5
+            - rostopic pub rb1_topic std_msgs/String "hello there"
+        - test:
+            - sleep 5
+            - rosservice call /master_discovery/list_masters
+        - test2:
+            - sleep 5
+            - rostopic list

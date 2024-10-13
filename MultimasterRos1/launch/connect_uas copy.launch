@@ -1,0 +1,14 @@
+<launch>
+    <node name="master_discovery" pkg="fkie_master_discovery" type="master_discovery">
+        <!-- todos los UAVS-->
+        <rosparam param="robot_hosts">[uav1]</rosparam>
+        <rosparam param="send_mcast">False</rosparam>
+        <rosparam param="listen_mcast">False</rosparam>
+    </node>
+    <node name="master_sync" pkg="fkie_master_sync" type="master_sync">    
+        <!-- todos los UAVS-->
+        <rosparam param="sync_hosts">[uav1]</rosparam> 
+         <rosparam param="ignore_hosts">[d389fa2d031e]</rosparam>
+    </node>
+
+</launch>

@@ -1,0 +1,64 @@
+services:
+  _myimage_build:
+    image: myros:noeticTest
+    command: ['echo', 'build completed']  # any linux command which directly terminates.
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  server:
+    image: myros:noeticTest
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    command: tail -f /dev/null
+    hostname: server
+    expose:
+      - "11311"
+      - "11312"
+      - "11511"
+      - "11611"
+    extends:
+      service: _myimage_build
+    networks:
+        witty:
+            ipv4_address: ${SERVER_IP_1}
+  robot1:
+    image: myros:noeticTest
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    command: tail -f /dev/null
+    hostname: robot1
+    expose:
+      - "11311"
+      - "11312"
+      - "11511"
+      - "11611"
+    extends:
+      service: _myimage_build
+    networks:
+        witty:
+            ipv4_address: ${ROBOT_IP_1}
+  robot2:
+    image: myros:noeticTest
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    command: tail -f /dev/null
+    hostname: robot2
+    expose:
+      - "11311"
+      - "11312"
+      - "11511"
+      - "11611"
+    extends:
+      service: _myimage_build
+    networks:
+        witty:
+            ipv4_address: ${ROBOT_IP_2}
+
+networks:
+    witty:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: ${NETWORK_SUBNET}
